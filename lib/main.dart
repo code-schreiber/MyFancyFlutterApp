@@ -1,4 +1,3 @@
-import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -6,33 +5,94 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var title = 'My Fancy Flutter App';
     return MaterialApp(
-      title: 'Welcome to Flutter (title)',
+      title: title,
 //      home: MyHomePage(title: 'Flutter Demo Home Page'),
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Welcome to Flutter (appBar)'),
+          title: Text(title),
         ),
-        body: Center(
-          child: RandomWords(),
-        ),
+        body: MyBody(),
       ),
     );
   }
 }
 
-class RandomWordsState extends State<RandomWords> {
+class QuestionWidget extends StatefulWidget {
+  QuestionWidget(this._question);
+
+  final _question;
+
+  @override
+  _QuestionWidgetState createState() => _QuestionWidgetState(_question);
+}
+
+class _QuestionWidgetState extends State<QuestionWidget> {
+  _QuestionWidgetState(this._question);
+
+  final _question;
+
+  int _count = 0;
+
   @override
   Widget build(BuildContext context) {
-    final wordPair = WordPair.random();
-    var newWord = wordPair.asPascalCase;
-    return Text(newWord);
+    var newColor = _count > 0 ? Colors.green : Colors.black;
+    return Row(
+      children: [
+        Expanded(
+            child: Text(
+              _question,
+              style: TextStyle(
+                  fontSize: 20.0, color: newColor),
+            )),
+        FlatButton(
+          onPressed: _updateCount,
+          color: newColor,
+          child: Text('$_count'),
+        ),
+      ],
+    );
+  }
+
+  void _updateCount() {
+    setState(() {
+      // TODO log changes
+      _count = _count + 1;
+      if (_count > 10) _count = 0;
+    });
   }
 }
 
-class RandomWords extends StatefulWidget {
+class MyBody extends StatelessWidget {
   @override
-  RandomWordsState createState() => RandomWordsState();
+  Widget build(BuildContext context) {
+    var title = Center(
+      child: Text('Some title',
+          style: TextStyle(
+            fontSize: 28.0,
+            fontWeight: FontWeight.bold,
+          )),
+    );
+
+    var questions = Table(
+      children: [
+        TableRow(children: [
+          QuestionWidget('Question 1'),
+        ]),
+        TableRow(children: [
+          QuestionWidget('Question 2'),
+        ])
+      ],
+    );
+
+    return Container(
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [title, questions],
+      ),
+    );
+  }
 }
 
 //------------------------------------------------------------------------------
