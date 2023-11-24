@@ -36,12 +36,11 @@ jobs:
         with:
           task: get-measurement
           label: 'Install Dependencies Measurement'
-          
-      - name: Run tests
-        run: flutter test
 
-      - name: Run Tests Measurement
+      - name: Show Energy Results
         uses: green-coding-berlin/eco-ci-energy-estimation@v2
         with:
-          task: get-measurement
-          label: 'Run Tests Measurement'
+          task: display-results
+
+      - name: Run tests
+        run: flutter test
