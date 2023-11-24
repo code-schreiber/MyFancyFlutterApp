@@ -9,7 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    permissions:
+      pull-requests: write
+    
     steps:
 
       - name: Initialize Energy Estimation
@@ -41,6 +43,7 @@ jobs:
         uses: green-coding-berlin/eco-ci-energy-estimation@v2
         with:
           task: display-results
+          pr-comment: true
 
       - name: Run tests
         run: flutter test
