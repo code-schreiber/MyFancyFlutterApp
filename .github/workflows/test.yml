@@ -11,13 +11,37 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+      - name: Initialize Energy Estimation
+        uses: green-coding-berlin/eco-ci-energy-estimation@v2
+        with:
+          task: start-measurement
+
       - uses: actions/checkout@v3
       - uses: subosito/flutter-action@v2.8.0
         with:
           flutter-version: '1.0.0'
 
+      - name: Checkout Repo Measurement
+        uses: green-coding-berlin/eco-ci-energy-estimation@v2
+        with:
+          task: get-measurement
+          label: 'Checkout Repo Measurement'
+
       - name: Install Dependencies
         run: flutter packages get
 
+      - name: Install Dependencies Measurement
+        uses: green-coding-berlin/eco-ci-energy-estimation@v2
+        with:
+          task: get-measurement
+          label: 'Install Dependencies Measurement'
+          
       - name: Run tests
         run: flutter test
+
+      - name: Run Tests Measurement
+        uses: green-coding-berlin/eco-ci-energy-estimation@v2
+        with:
+          task: get-measurement
+          label: 'Run Tests Measurement'
